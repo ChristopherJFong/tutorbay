@@ -119,7 +119,7 @@ require('dotenv').config();
 
 const url = process.env.MONGODB_URI;
 const MongoClient = require('mongodb').MongoClient;
-const client = await new MongoClient(url);
+const client = new MongoClient(url);
 client.connect(); 
 
 app.post('/api/addcard', async (req, res, next) =>
