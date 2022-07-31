@@ -17,6 +17,10 @@ const CardSchema = new Schema(
         Link: {
             type: String,
             required: true
+        },
+        Article: {
+            type: String,
+            required: true
         }
     },
     { collection: 'Lessons'}

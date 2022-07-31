@@ -80,7 +80,7 @@ exports.setApp = function ( app, client )
     var _ret;
     if(results.length > 0)
     {
-        _ret = { link: results[0].Link };
+        _ret = { link: results[0].Link, article: results[0].Article };
     }
     else
     {
@@ -171,7 +171,7 @@ exports.setApp = function ( app, client )
             from: 'thetutorbay@gmail.com', // Change to your verified sender
             subject: 'Please Verify Your Email!',
             text: 'and easy to do anywhere, even with Node.js',
-            html: '<a href="https://tutorbay.herokuapp.com/api/verifyEmail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
+            html: '<a href="https://tutorbay.herokuapp.com/VerifyEmail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
         }
         sgMail
             .send(msg)
@@ -221,6 +221,78 @@ exports.setApp = function ( app, client )
 
     var ret = { error: error };
 
+    res.status(200).json(ret);
+  });
+
+  app.post('/api/forgotPassword', async (req, res, next) =>
+  {
+     var error = '';
+     const {email} = req.body;
+
+     try
+     {
+      const db = client.db();
+      const result = await db.collection('Users').find({
+        Email: email.toLowerCase()
+      }).toArray();
+     console.log(result);
+      
+      const results = await Users.find({ Email: email });
+      if (results.length > 0)
+      {
+        // using Twilio SendGrid's v3 Node.js Library
+        // https://github.com/sendgrid/sendgrid-nodejs
+        const sgMail = require('@sendgrid/mail')
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        const msg = {
+          to: email, // Change to your recipient
+          from: 'thetutorsbay@gmail.com', // Change to your verified sender
+          subject: 'Reset Your Password!',
+          text: 'and easy to do anywhere, even with Node.js',
+          html: '<a href="https://tutorbay.herokuapp.com/ResetPassword"<strong><button type="button">Click Me To Reset Password!</button></strong>',
+        }
+        sgMail
+          .send(msg)
+          .then(() => {
+            console.log('Email sent')
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
+      else
+      {
+        error="Incorrect Email";
+      }
+      
+     }catch(e)
+     {
+      error = e.toString();
+     }
+     var ret = { error: error };
+     res.status(200).json(ret);
+  });
+
+  app.post('/api/resetPassword', async (req, res, next) =>
+  {
+    var error = '';
+ 
+    const { email, password } = req.body;
+    var hashedPass = hashPass.generate(password);
+    var query = { Email: email };
+     
+    var newValues = { $set: {Password: hashedPass} };
+      
+    try {
+        await Users.updateOne(query, newValues);
+    }
+    catch(e) {
+        error = "Update failed";
+    }
+    // console.log(query);
+    // console.log(newValues);
+    var ret = { error: error };
+      
     res.status(200).json(ret);
   });
     
