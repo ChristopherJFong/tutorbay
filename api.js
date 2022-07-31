@@ -230,13 +230,7 @@ exports.setApp = function ( app, client )
      const {email} = req.body;
 
      try
-     {
-      const db = client.db();
-      const result = await db.collection('Users').find({
-        Email: email.toLowerCase()
-      }).toArray();
-     console.log(result);
-      
+     { 
       const results = await Users.find({ Email: email });
       if (results.length > 0)
       {
@@ -246,7 +240,7 @@ exports.setApp = function ( app, client )
         sgMail.setApiKey(process.env.SENDGRID_API_KEY)
         const msg = {
           to: email, // Change to your recipient
-          from: 'thetutorsbay@gmail.com', // Change to your verified sender
+          from: 'thetutorbay@gmail.com', // Change to your verified sender
           subject: 'Reset Your Password!',
           text: 'and easy to do anywhere, even with Node.js',
           html: '<a href="https://tutorbay.herokuapp.com/ResetPassword"<strong><button type="button">Click Me To Reset Password!</button></strong>',
