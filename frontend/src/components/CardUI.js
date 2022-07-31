@@ -64,7 +64,7 @@ function CardUI()
 
         try
         {
-            const response = await fetch(bp.buildPath('api/searchcards'),
+            const response = await fetch(bp.buildPath('api/searchtutors'),
             {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
             let txt = await response.text();
             let res = JSON.parse(txt);
@@ -78,7 +78,7 @@ function CardUI()
                     resultText += ', ';
                 }
             }
-            setResults('Card(s) have been retrieved');
+            setResults('Tutors(s) have been retrieved');
             setCardList(resultText);
             storage.storeToken( res );
         }

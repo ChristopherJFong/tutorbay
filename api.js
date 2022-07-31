@@ -1,67 +1,22 @@
 exports.setApp = function ( app, client )
 {
-  //load user model
-  const User = require("./models/user.js");
-  //load card model
-  const Card = require("./models/card.js");
+  const Users = require("./models/users.js");
+  const Subjects = require("./models/subjects.js");
+  const Lessons = require("./models/lessons.js");
 
-  app.post('/api/addcard', async (req, res, next) =>
-  {
-    // incoming: userId, color
-    // outgoing: error
-      
-    const { userId, card, jwtToken } = req.body;
-    try
-    {
-      if( token.isExpired(jwtToken))
-      {
-        var r = {error:'The JWT is no longer valid', jwtToken: ''};
-        res.status(200).json(r);
-        return;
-      }
-    }
-    catch(e)
-    {
-      console.log(e.message);
-    }
+  const token = require("./createJWT.js");
+  const hashPass = require('password-hash');
+  var ObjectId = require('mongodb').ObjectID;
+
   
-    //const newCard = { Card: card, UserId: userId };
-    const newCard = new Card({ Card: card, UserId: userId });
-    var error = '';
-    try 
-    {
-      // const db = client.db();
-      // const result = db.collection('Cards').insertOne(newCard);
-      newCard.save();
-    }
-    catch (e) 
-    {
-      error = e.toString();
-    }
-  
-    var refreshedToken = null;
-    try
-    {
-      refreshedToken = token.refresh(jwtToken);
-    }
-    catch(e)
-    {
-      console.log(e.message);
-    }
-  
-    var ret = { error: error, jwtToken: refreshedToken };
-    
-    res.status(200).json(ret);
-  });
-  
-  app.post('/api/searchcards', async (req, res, next) => 
+  app.post('/api/search', async (req, res, next) =>
   {
     // incoming: userId, search
     // outgoing: results[], error
-  
+ 
     var error = '';
   
-    const { userId, search, jwtToken } = req.body;
+    const { search, jwtToken } = req.body;
     try
     {
       if( token.isExpired(jwtToken))
@@ -77,14 +32,16 @@ exports.setApp = function ( app, client )
     }
     
     var _search = search.trim();
-    //   const db = client.db();
-    //   const results = await db.collection('Cards').find({ "Card": { $regex: _search + '.*', $options: 'r' } }).toArray();
-    const results = await Card.find({ "Card": { $regex: _search + '.*', $options: 'r' } });
+    const results = await Subjects.find({ "Title": { $regex: _search + '.*', $options: 'r' } });
     
     var _ret = [];
     for( var i=0; i<results.length; i++ )
     {
-      _ret.push( results[i].Card );
+        const results2 = await Lessons.find({ "Subject_id": results[i]._id });
+        for( var j=0; j<results2.length; j++ )
+        {
+            _ret.push( { id: results2[j]._id, Title: results2[j].Title } );
+        }
     }
     
     var refreshedToken = null;
@@ -102,43 +59,168 @@ exports.setApp = function ( app, client )
     res.status(200).json(ret);
   });
 
+  app.post('/api/select', async (req, res, next) => 
+  {
+    var error = '';
+    const { id, jwtToken } = req.body;
+    try
+    {
+      if( token.isExpired(jwtToken))
+      {
+        var r = {error:'The JWT is no longer valid', jwtToken: ''};
+        res.status(200).json(r);
+        return;
+      }
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+    const results = await Lessons.find({ "_id": id });
+    var _ret;
+    if(results.length > 0)
+    {
+        _ret = { link: results[0].Link };
+    }
+    else
+    {
+        _ret = { error: "Lesson does not exist"};
+    }
+      
+    var refreshedToken = null;
+    try
+    {
+      refreshedToken = token.refresh(jwtToken);
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+      
+    var ret = { results: _ret, jwtToken: refreshedToken };
+      
+    res.status(200).json(ret);
+  });
+
   app.post('/api/login', async (req, res, next) => 
   {
     // incoming: login, password
     // outgoing: id, firstName, lastName, error
   
-   var error = '';
+    var error = '';
   
-   const { login, password } = req.body;
-   // const db = client.db();
-   // const results = await db.collection('Users').find({Login:login,Password:password}).toArray();
-   const results = await Users.find({ Login: login, Password: password });
-  
-    var id = -1;
+    const { login, password } = req.body;
+    const results = await Users.find({ Login: login });
+
+    var id = ObjectId();
     var fn = '';
     var ln = '';
     var ret;
-  
-    if( results.length > 0 )
+    if(results.length > 0 && hashPass.verify(password, results[0].Password))
     {
-      id = results[0].UserId;
-      fn = results[0].FirstName;
-      ln = results[0].LastName;
-      try
+      if( results[0].Verify == true )
       {
-        const token = require("./createJWT.js");
-        ret = token.createToken( fn, ln, id );
+        id = results[0]._id;
+        fn = results[0].FirstName;
+        ln = results[0].LastName;
+        try
+        {
+          ret = token.createToken( fn, ln, id );
+        }
+        catch(e)
+        {
+          ret = {error:e.message};
+        }
       }
-      catch(e)
+      else
       {
-        ret = {error:e.message};
+        ret = {error:"Not yet verified"};
       }
     }
     else
     {
-        ret = {error:"Login/Password incorrect"};
+      ret = {error:"Login/Password incorrect"};
     }
-  
+
+    res.status(200).json(ret);
+  });
+
+  app.post('/api/register', async (req, res, next) =>
+  {
+    var error = '';
+
+    const { firstname, lastname, email, login, password } = req.body;
+    var hashedPass = hashPass.generate(password);
+
+    const user = {
+        FirstName: firstname,
+        LastName: lastname,
+        Email: email,
+        Login: login,
+        Password: hashedPass,
+        Verify: false
+    }
+    
+    try {
+        const result = await Users.create(user);
+        
+        const sgMail = require('@sendgrid/mail')
+        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        const msg = {
+            to: email, // Change to your recipient
+            from: 'thetutorbay@gmail.com', // Change to your verified sender
+            subject: 'Please Verify Your Email!',
+            text: 'and easy to do anywhere, even with Node.js',
+            html: '<a href="https://tutorbay.herokuapp.com/api/verifyEmail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
+        }
+        sgMail
+            .send(msg)
+            .then(() => {
+            console.log('Email sent')
+            })
+            .catch((error) => {
+            console.error(error)
+            })
+    }
+    catch(e) {
+      error = "Email/Username already in use";
+    }
+
+    var ret = { error: error };
+    res.status(200).json(ret);
+  });
+
+  app.post('/api/verifyEmail', async (req, res, next) =>
+  {
+    var error = '';
+    const { login, password } = req.body;
+      
+    const results = await Users.find({ Login: login });
+    
+    var fn = '';
+    var ln = '';
+    var email = '';
+
+    if (results.length > 0 && hashPass.verify(password, results[0].Password))
+    {
+        fn = result[0].FirstName;
+        ln = result[0].LastName;
+        email = result[0].Email;
+
+        var query = { Login: login };
+
+        var newValues = { $set: {Verify : true} };
+
+        try {
+            await Users.updateOne(query, newValues);
+        }
+        catch(e) {
+            error = "Update failed";
+        }
+    }
+
+    var ret = { error: error };
+
     res.status(200).json(ret);
   });
     
