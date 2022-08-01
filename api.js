@@ -8,12 +8,8 @@ exports.setApp = function ( app, client )
   const hashPass = require('password-hash');
   var ObjectId = require('mongodb').ObjectID;
 
-  
-  app.post('/api/search', async (req, res, next) =>
+  app.post('/api/searchSubjects', async (req, res, next) => 
   {
-    // incoming: userId, search
-    // outgoing: results[], error
- 
     var error = '';
   
     const { search, jwtToken } = req.body;
@@ -37,11 +33,50 @@ exports.setApp = function ( app, client )
     var _ret = [];
     for( var i=0; i<results.length; i++ )
     {
-        const results2 = await Lessons.find({ "Subject_id": results[i]._id });
-        for( var j=0; j<results2.length; j++ )
-        {
-            _ret.push( { id: results2[j]._id, Title: results2[j].Title } );
-        }
+        _ret.push( { id: results[i]._id, Name: results[i].Name } );
+    }
+    
+    var refreshedToken = null;
+    try
+    {
+      refreshedToken = token.refresh(jwtToken);
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+  
+    var ret = { results:_ret, error: error, jwtToken: refreshedToken };
+    
+    res.status(200).json(ret);
+  });
+
+  app.post('/api/searchLessons', async (req, res, next) =>
+  {
+ 
+    var error = '';
+  
+    const { id, jwtToken } = req.body;
+    try
+    {
+      if( token.isExpired(jwtToken))
+      {
+        var r = {error:'The JWT is no longer valid', jwtToken: ''};
+        res.status(200).json(r);
+        return;
+      }
+    }
+    catch(e)
+    {
+      console.log(e.message);
+    }
+    
+    const results = await Lessons.find({ "Subject_id": id });
+    
+    var _ret = [];
+    for( var i=0; i<results.length; i++ )
+    {
+        _ret.push( { id: results[i]._id, Title: results[i].Title } );
     }
     
     var refreshedToken = null;

@@ -15,6 +15,8 @@
 // }
 // export default App;
 
+
+
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -22,11 +24,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import LoginPage from './pages/LoginPage';
-import SignUpPage from './pages/SignUpPage';
-import HomePage from './pages/HomePage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage';
-import VerifyEmailPage from './pages/VerifyEmailPage';
-import ResetPasswordPage from './pages/ResetPasswordPage';
+// import SignUpPage from './pages/SignUpPage';
+// import HomePage from './pages/HomePage';
+// import ForgotPasswordPage from './pages/ForgotPasswordPage';
+// import VerifyEmailPage from './pages/VerifyEmailPage';
+// import ResetPasswordPage from './pages/ResetPasswordPage';
 
 
 function App() {
