@@ -36,11 +36,11 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/" index element={<LoginPage />} />
-      <Route path="/SignUp" index element={<SignUpPage />} />
+      {/* <Route path="/SignUp" index element={<SignUpPage />} />
       <Route path="/Home" index element={<HomePage />} />
       <Route path="/ForgotPassword" index element={<ForgotPasswordPage />} />
       <Route path="/VerifyEmail" index element={<VerifyEmailPage />} />
-      <Route path="/ResetPassword" index element={<ResetPasswordPage />} />
+      <Route path="/ResetPassword" index element={<ResetPasswordPage />} /> */}
     </Routes>
   </BrowserRouter>
 );
