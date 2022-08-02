@@ -33,6 +33,7 @@ function ResetPassword()
         }
         
         var obj = {token: token, password: password.value};
+        console.log(token);
         var js = JSON.stringify(obj);
         try
         {    
