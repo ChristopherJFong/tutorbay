@@ -275,7 +275,7 @@ exports.setApp = function ( app, client )
         sgMail
           .send(msg)
           .then(() => {
-            console.log('Email sent')
+            error="Email sent";
           })
           .catch((error) => {
             console.error(error)
