@@ -6,7 +6,10 @@ function ResetPassword()
     var password;
     var confirmPass;
     const [message,setMessage] = useState('');
-    var token = localStorage.getItem("token")
+    const queryString = window.location.search;
+    //console.log(queryString);
+    const urlParams = new URLSearchParams(queryString);
+    var token = urlParams.get('token');
 
     const doResetPassword = async event => 
     {
