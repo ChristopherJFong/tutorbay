@@ -28,8 +28,8 @@ exports.setApp = function ( app, client )
       console.log(e.message);
     }
     
-    //var _search = search.trim();
-    const results = await Subjects.find({ "Name": { $regex: search/* + '.*'*/, $options: 'r' } });
+    var _search = search.trim();
+    const results = await Subjects.find({ "Name": { $regex: _search + '.*', $options: 'r' } });
     
     var _ret = [];
     for( var i=0; i<results.length; i++ )
