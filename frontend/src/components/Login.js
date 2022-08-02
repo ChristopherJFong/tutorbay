@@ -3,7 +3,8 @@ import { Form, Button } from 'react-bootstrap';
 
 import axios from "axios";
 
-export const Login = () => {
+function Login()
+{
 
     var storage = require('../tokenStorage.js');
     var loginName;
