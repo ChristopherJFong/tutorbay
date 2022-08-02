@@ -6,7 +6,7 @@ function ResetPassword()
     var password;
     var confirmPass;
     const [message,setMessage] = useState('');
-    var email = localStorage.getItem("TempEmail")
+    var token = localStorage.getItem("token")
 
     const doResetPassword = async event => 
     {
@@ -32,11 +32,11 @@ function ResetPassword()
             return;
         }
         
-        var obj = {email:email, password: password.value};
+        var obj = {token: token, password: password.value};
         var js = JSON.stringify(obj);
         try
         {    
-            const response = await fetch('http://localhost:5000/api/ResetPassword',
+            const response = await fetch('https://tutorbay.herokuapp.com/api/resetPassword',
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
@@ -62,24 +62,32 @@ function ResetPassword()
 
 
     return(
-        <div>  
-        <Form className="loginform">
-            <h3 className="loginlabel">
-                 Reset Your Password
-            </h3>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="Enter new password" ref={(c) => password = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="Re-enter password" ref={(c) => confirmPass = c}/>
-            </Form.Group>
-            <Button size="lg" variant="primary" type="submit" onClick={doResetPassword} block>
-                Verify
-            </Button>
-            <span id="loginResult">{message}</span>
-            <hr></hr>
-        </Form>
-    </div>
+    //     <div>  
+    //     <Form className="loginform">
+    //         <h3 className="loginlabel">
+    //              Reset Your Password
+    //         </h3>
+    //         <Form.Group controlId="formBasicPassword">
+    //             <Form.Control className="login-input" type="password" placeholder="Enter new password" ref={(c) => password = c}/>
+    //         </Form.Group>
+    //         <Form.Group controlId="formBasicPassword">
+    //             <Form.Control className="login-input" type="password" placeholder="Re-enter password" ref={(c) => confirmPass = c}/>
+    //         </Form.Group>
+    //         <Button size="lg" variant="primary" type="submit" onClick={doResetPassword} block>
+    //             Verify
+    //         </Button>
+    //         <span id="loginResult">{message}</span>
+    //         <hr></hr>
+    //     </Form>
+    // </div>
+
+    <div id="resetpasswordDiv">
+    <span id="inner-title">RESET YOUR PASSWORD</span><br />
+    <input type="password" id="password" placeholder="Password" ref={(c) => password = c}  /><br/>
+    <input type="password" id="confirmPass" placeholder="Confirm Password" ref={(c) => confirmPass = c} /><br />
+    <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doResetPassword} />
+    <span id="resetpasswordResult">{message}</span>
+</div>
    );
 };
 

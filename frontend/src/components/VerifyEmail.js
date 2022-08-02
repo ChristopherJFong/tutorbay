@@ -81,12 +81,12 @@ function VerifyEmail()
     //     </Form>
     // </div>
 
-    <div id="loginDiv">
+    <div id="verifyDiv">
             <span id="inner-title">LOG IN TO VERIFY EMAIL</span><br />
             <input type="text" id="loginUserName" placeholder="Username" ref={(c) => loginUserName = c}  /><br/>
             <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
             <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doVerifyEmail} />
-            <span id="loginResult">{message}</span>
+            <span id="verifyResult">{message}</span>
         </div>
    );
 };

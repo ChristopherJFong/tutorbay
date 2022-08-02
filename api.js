@@ -6,6 +6,7 @@ exports.setApp = function ( app, client )
 
   const token = require("./createJWT.js");
   const hashPass = require('password-hash');
+  const randtoken = require('rand-token');
   var ObjectId = require('mongodb').ObjectID;
 
   app.post('/api/searchSubjects', async (req, res, next) => 
@@ -263,6 +264,10 @@ exports.setApp = function ( app, client )
       {
         // using Twilio SendGrid's v3 Node.js Library
         // https://github.com/sendgrid/sendgrid-nodejs
+        var token = randtoken.generate(20);
+        var newValues = { $set: {Token : token} };
+        await Users.updateOne({ Email: email }, newValues);
+
         const sgMail = require('@sendgrid/mail')
         sgMail.setApiKey(process.env.SENDGRID_API_KEY)
         const msg = {
@@ -270,12 +275,12 @@ exports.setApp = function ( app, client )
           from: 'thetutorbay@gmail.com', // Change to your verified sender
           subject: 'Reset Your Password!',
           text: 'and easy to do anywhere, even with Node.js',
-          html: '<a href="https://tutorbay.herokuapp.com/resetpassword"<strong><button type="button">Click Me To Reset Password!</button></strong>',
+          html: '<a href="https://tutorbay.herokuapp.com/resetpassword?token=' + token + '"<strong><button type="button">Click Me To Reset Password!</button></strong>',
         }
         sgMail
           .send(msg)
           .then(() => {
-            error="Email sent";
+            error = "Email Sent";
           })
           .catch((error) => {
             console.error(error)
@@ -298,9 +303,9 @@ exports.setApp = function ( app, client )
   {
     var error = '';
  
-    const { email, password } = req.body;
+    const { token, password } = req.body;
     var hashedPass = hashPass.generate(password);
-    var query = { Email: email };
+    var query = { Token: token };
      
     var newValues = { $set: {Password: hashedPass} };
       

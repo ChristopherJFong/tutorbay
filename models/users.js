@@ -28,6 +28,9 @@ const UserSchema = new mongoose.Schema(
         Verify: {
             type: Boolean,
             required: true
+        },
+        Token: {
+            type: String
         }
     },
     { collection: 'Users'}
