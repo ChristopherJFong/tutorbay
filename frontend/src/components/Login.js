@@ -1,10 +1,8 @@
 import { useState, useRef } from "react";
-import { Form, Button } from 'react-bootstrap';
 
 import axios from "axios";
 
-function Login()
-{
+export const Login = () => {
 
     var storage = require('../tokenStorage.js');
     var loginName;
@@ -54,39 +52,12 @@ function Login()
     };
 
     return(
-        // <div id="loginDiv">
-        //     <span id="inner-title">LOG IN</span><br />
-        //     <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br/>
-        //     <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-        //     <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doLogin} />
-        //     <span id="loginResult">{message}</span>
-        // </div>
-
-        <div>  
-        <Form className="loginform">
-            <h3 className="loginlabel">
-                Log In
-            </h3>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control className="login-input" type="name" placeholder="username" ref={(c) => loginName = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="password" ref={(c) => loginPassword = c}/>
-            </Form.Group>
-            <Button size="lg" variant="primary" type="submit" onClick={doLogin} block>
-                Log in
-            </Button>
-            <div className="col text-center">
+        <div id="loginDiv">
+            <span id="inner-title">LOG IN</span><br />
+            <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br/>
+            <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
+            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doLogin} />
             <span id="loginResult">{message}</span>
-            </div>
-            <hr></hr>
-            <div className="col text-center">
-                <a href="/forgotpassword">Forgot Password?</a><br></br>
-                {/* <span className="divider"></span> */}
-                <a href="/signup" className="link">Create an account</a>
-            </div>
-        </Form>
-    </div>
+        </div>
     );
-};
-export default Login;
+}
