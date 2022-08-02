@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+var ObjectId = require('mongodb').ObjectID;
 require("dotenv").config();
 exports.createToken = function ( fn, ln, id )
 {
@@ -47,7 +48,8 @@ exports.isExpired = function( token )
 exports.refresh = function( token )
 {
   let ud = jwt.decode(token,{complete:true});
-  let userId = ud.payload.id;
+  let userId = ObjectId();
+  userId = ud.payload.id;
   let firstName = ud.payload.firstName;
   let lastName = ud.payload.lastName;
   return _createToken( firstName, lastName, userId );
