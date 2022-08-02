@@ -60,4 +60,5 @@ export const Login = () => {
             <span id="loginResult">{message}</span>
         </div>
     );
-}
+};
+export default Login;
