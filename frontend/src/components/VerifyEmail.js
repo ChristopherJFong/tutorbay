@@ -21,7 +21,7 @@ function VerifyEmail()
 
             var res = JSON.parse(await response.text());
             console.log(res);
-            if( res.firstName === "" )
+            if( res.error === "Update failed" )
             {
                 setMessage('Username/Password combination incorrect');
             }

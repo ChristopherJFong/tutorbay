@@ -1,14 +1,13 @@
 import React from 'react';
-
-import SignUpPageTitle from '../components/SignUpPageTitle'
 import ForgotPassword from '../components/ForgotPassword';
 
 const ForgotPasswordPage = () =>
 {
     return(
-        <div>
-            <SignUpPageTitle />
-            <ForgotPassword />
+        <div className="center">
+            <div className="form-frame">
+                <ForgotPassword />
+            </div>
         </div>
     );
 }

@@ -270,7 +270,7 @@ exports.setApp = function ( app, client )
           from: 'thetutorbay@gmail.com', // Change to your verified sender
           subject: 'Reset Your Password!',
           text: 'and easy to do anywhere, even with Node.js',
-          html: '<a href="https://tutorbay.herokuapp.com/resetPassword"<strong><button type="button">Click Me To Reset Password!</button></strong>',
+          html: '<a href="https://tutorbay.herokuapp.com/resetpassword"<strong><button type="button">Click Me To Reset Password!</button></strong>',
         }
         sgMail
           .send(msg)
