@@ -45,16 +45,16 @@ function ResetPassword()
 
             var res = JSON.parse(await response.text());
 
-            if( res.error === "" )
+            if( res.error === "Update failed" )
+            {
+                setMessage(res.error);
+            }
+            else
             {
                 setMessage("Password Reset");
                 setTimeout(() => {
                     window.location.href = '/';
                   },5000);
-            }
-            else
-            {
-                setMessage(res.error);
             }
         }
         catch(e)

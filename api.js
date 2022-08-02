@@ -304,16 +304,23 @@ exports.setApp = function ( app, client )
     var error = '';
  
     const { token, password } = req.body;
-    var hashedPass = hashPass.generate(password);
-    var query = { Token: token };
-     
-    var newValues = { $set: {Password: hashedPass} };
-      
-    try {
-        await Users.updateOne(query, newValues);
+    if(token == null)
+    {
+      error = "Update failed";
     }
-    catch(e) {
-        error = "Update failed";
+    else
+    {
+      var hashedPass = hashPass.generate(password);
+      var query = { Token: token };
+       
+      var newValues = { $set: {Password: hashedPass} };
+        
+      try {
+          await Users.updateOne(query, newValues);
+      }
+      catch(e) {
+          error = "Update failed";
+      }
     }
     // console.log(query);
     // console.log(newValues);
