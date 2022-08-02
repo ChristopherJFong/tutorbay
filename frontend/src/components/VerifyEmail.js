@@ -20,18 +20,31 @@ function VerifyEmail()
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
-            console.log(res);
             if( res.error === "Update failed" )
             {
                 setMessage('Username/Password combination incorrect');
             }
             else
             {
-                var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
-                localStorage.setItem('user_data', JSON.stringify(user));
+                //var user = {firstName:res.firstName,lastName:res.lastName,id:res.id}
+                //localStorage.setItem('user_data', JSON.stringify(user));
                 
                 setMessage('Your email has been verified!');
-                //window.location.href = '/';
+                const response2 = await fetch('https://tutorbay.herokuapp.com/api/login', {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+                var res2 = JSON.parse(await response.text());
+                storage.storeToken(res2);
+                var jwt = require('jsonwebtoken');
+
+                var ud = jwt.decode(storage.retrieveToken(),{complete:true});
+                var userId = ud.payload.userId;
+                var firstName = ud.payload.firstName;
+                var lastName = ud.payload.lastName;
+                  
+                var user = {firstName:firstName,lastName:lastName,id:userId}
+                localStorage.setItem('user_data', JSON.stringify(user));
+                setTimeout(() => {
+                    window.location.href = '/home';
+                  },5000);
             }
         }
         catch(e)
