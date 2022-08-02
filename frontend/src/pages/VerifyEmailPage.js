@@ -1,16 +1,15 @@
 import React from 'react';
-
-import PageTitle from '../components/PageTitle'
 import VerifyEmail from '../components/VerifyEmail';
 
 const VerifyEmailPage = () =>
 {
-    return(
-        <div>
-            <PageTitle />
-            <VerifyEmail />
+    return (
+        <div className="center">
+            <div className="form-frame">
+                <VerifyEmail />
+            </div>
         </div>
     );
-}
+};
 
 export default VerifyEmailPage;

@@ -16,7 +16,7 @@ function VerifyEmail()
         
         try
         {    
-            const response = await fetch('http://localhost:5000/api/verifyEmail',
+            const response = await fetch('https://tutorbay.herokuapp.com/api/verifyEmail',
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
@@ -44,28 +44,36 @@ function VerifyEmail()
 
 
     return(
-        <div>  
-        <Form className="loginform">
-            <h3 className="loginlabel">
-                Log in to Verify Email
-            </h3>
-            <Form.Group controlId="formBasicEmail">
-                <Form.Control className="login-input" type="email" placeholder="username" ref={(c) => loginUserName = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="password" ref={(c) => loginPassword = c}/>
-            </Form.Group>
-            <Button size="lg" variant="primary" type="submit" onClick={doVerifyEmail} block>
-                Verify
-            </Button>
+    //     <div>  
+    //     <Form className="loginform">
+    //         <h3 className="loginlabel">
+    //             Log in to Verify Email
+    //         </h3>
+    //         <Form.Group controlId="formBasicEmail">
+    //             <Form.Control className="login-input" type="email" placeholder="username" ref={(c) => loginUserName = c}/>
+    //         </Form.Group>
+    //         <Form.Group controlId="formBasicPassword">
+    //             <Form.Control className="login-input" type="password" placeholder="password" ref={(c) => loginPassword = c}/>
+    //         </Form.Group>
+    //         <Button size="lg" variant="primary" type="submit" onClick={doVerifyEmail} block>
+    //             Verify
+    //         </Button>
             
-            <hr></hr>
-            <div className="col text-center">
+    //         <hr></hr>
+    //         <div className="col text-center">
+    //         <span id="loginResult">{message}</span>
+    //         </div>
+            
+    //     </Form>
+    // </div>
+
+    <div id="loginDiv">
+            <span id="inner-title">LOG IN TO VERIFY EMAIL</span><br />
+            <input type="text" id="loginUserName" placeholder="Username" ref={(c) => loginUserName = c}  /><br/>
+            <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
+            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doVerifyEmail} />
             <span id="loginResult">{message}</span>
-            </div>
-            
-        </Form>
-    </div>
+        </div>
    );
 };
 

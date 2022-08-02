@@ -1,15 +1,14 @@
 import React from 'react';
-import PageTitle from '../components/PageTitle';
-import Login from '../components/Login';
 
-const LoginPage = () =>
-{
+import { Login } from '../components/Login';
 
-    return(
-      <div className="loginPage">
-        <PageTitle />
-        <Login />
-      </div>
+const LoginPage = () => {
+    return (
+        <div className="center">
+            <div className="form-frame">
+                <Login />
+            </div>
+        </div>
     );
 };
 

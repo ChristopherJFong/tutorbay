@@ -206,7 +206,7 @@ exports.setApp = function ( app, client )
             from: 'thetutorbay@gmail.com', // Change to your verified sender
             subject: 'Please Verify Your Email!',
             text: 'and easy to do anywhere, even with Node.js',
-            html: '<a href="https://tutorbay.herokuapp.com/VerifyEmail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
+            html: '<a href="https://tutorbay.herokuapp.com/verifyEmail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
         }
         sgMail
             .send(msg)

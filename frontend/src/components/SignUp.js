@@ -41,7 +41,7 @@ function SignUp()
 
         try
         {    
-            const response = await fetch('http://localhost:5000/api/Register',
+            const response = await fetch('https://tutorbay.herokuapp.com/api/register',
                 {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
 
             var res = JSON.parse(await response.text());
@@ -66,38 +66,16 @@ function SignUp()
     };
 
     return(
-    <div>  
-        <Form className="loginform">
-            <h3 className="loginlabel">Create An Account</h3>
-            <Form.Group controlId="formBasicFirst">
-                <Form.Control className="login-input" type="fname" placeholder="First Name" ref={(c) => firstName = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicLast">
-                <Form.Control className="login-input" type="lname" placeholder="Last Name" ref={(c) => lastName = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicEmailAdr">
-                <Form.Control className="login-input" type="email" placeholder="Email" ref={(c) => email = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicUsername">
-                <Form.Control className="login-input" type="username" placeholder="Username" ref={(c) => userName = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="Password" ref={(c) => password = c}/>
-            </Form.Group>
-            <Form.Group controlId="formBasicPassword">
-                <Form.Control className="login-input" type="password" placeholder="Re-enter Password" ref={(c) => confirmPass = c}/>
-            </Form.Group>
-            <Button size="lg" variant="primary" type="submit" onClick={doSignUp} block>
-                Sign Up
-            </Button>
-            <div className="col text-center">
-            <span id="loginResult">{message}</span>
-            </div>
-            <hr></hr>
-            <div>
-                <a href="/">Back to Login</a>
-            </div>
-        </Form>
+    <div id="signupDiv">
+        <span id="inner-title">SIGN UP</span><br />
+        <input type="text" id="firstName" placeholder="First Name" ref={(c) => firstName = c}  /><br/>
+        <input type="text" id="lastName" placeholder="Last Name" ref={(c) => lastName = c}  /><br/>
+        <input type="email" id="email" placeholder="Email" ref={(c) => email = c}  /><br/>
+        <input type="text" id="userName" placeholder="Username" ref={(c) => userName = c}  /><br/>
+        <input type="password" id="password" placeholder="Password" ref={(c) => password = c} /><br />
+        <input type="password" id="confirmPass" placeholder="Confirm Password" ref={(c) => confirmPass = c} /><br />
+        <input type="submit" id="signupButton" class="buttons" value = "submit" onClick={doSignUp} />
+        <span id="signupResult">{message}</span>
     </div>
     );
 };
