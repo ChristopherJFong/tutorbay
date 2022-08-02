@@ -1,2 +1,2 @@
 # tutorbay
-Tutor listing app using a MERN stack
+MERN stack app
