@@ -5,7 +5,6 @@ const ResetPasswordPage = () =>
 {
     return(
         <div>
-            <PageTitle />
             <ResetPassword />
         </div>
     );

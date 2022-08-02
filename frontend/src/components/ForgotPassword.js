@@ -1,66 +1,37 @@
 import React, { useState } from 'react';
-import { config } from '../Constants'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { validateEmail } from '../Helper';
 
 function ForgotPassword(props)
 {
     var emailForm;
 
     const [message,setMessage] = useState('');
-    const [disabled,setDisabled] = useState(true);
-
-    const backToLogin = () => {
-        setMessage('');
-        emailForm.value = "";
-        setDisabled(true);
-        props.setError([{el:emailForm, isError:false}]);
-        props.setScreen("login");
-    };
-
-    const handleChange = (e) => {
-        var error = !validateEmail(e.target.value) ? true : false;
-        props.setError([{el:emailForm, isError:error}]);
-        setDisabled(error);
-    };
 
     const doSendEmail = async event => 
     {
-        let emailInput = emailForm;
         event.preventDefault();
-        props.setEmail(emailForm.value);
-        setDisabled(true);
-        setMessage("");
-        props.setError([{el:emailForm, isError:false}]);
-        let obj = {email:emailForm.value};
-        let js = JSON.stringify(obj);
+        
+        var obj = {email:emailForm.value};
+        var js = JSON.stringify(obj);
 
         try
         {    
-            await fetch(`${config.URL}/api/send-password-reset`,
-                {method:'POST',body:js,headers:{'Content-Type': 'application/json'}}).then(async ret => {
-                    let res = JSON.parse(await ret.text());
-                    if(res.error)
-                    {
-                        if (res.error === "Invalid Email") {
-                            setMessage("You must enter a valid email address");
-                        }
-                        else
-                            setMessage(res.error);
+            const response = await fetch('https://tutorbay.herokuapp.com/api/forgotPassword', {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
+            let res = JSON.parse(await response.text());
+            if(res.error === "Email Sent")
+            {
+                setMessage("Email has been sent")
+            }
+            else if (res.error === "Incorect Email")
+            {
+                setMessage("You must enter a valid email address");
+            }
+            else
+            {
+                setMessage(res.error);
+            }
 
-                        props.setError([{el:emailInput, isError:true}]);
-                    }
-                    else
-                    {
-                        emailInput.value = "";
-                        setDisabled(true);
-                        props.setError([{el:emailInput, isError:false}]);
-                        props.setScreen("password_sent")
-                    }
-
-                    setDisabled(false);
-                });
         }
         catch(e)
         {
