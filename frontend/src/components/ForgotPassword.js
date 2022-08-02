@@ -35,7 +35,6 @@ function ForgotPassword(props)
         }
         catch(e)
         {
-            setDisabled(false);
             setMessage("An unexpected error occurred while sending the password reset email. Please try again.");
             return;
         }    
