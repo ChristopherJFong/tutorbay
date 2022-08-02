@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import { config } from '../Constants'
+import { config } from '../Constants'
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
-// import { validateEmail } from '../Helper';
+import { validateEmail } from '../Helper';
 
 function ForgotPassword(props)
 {
