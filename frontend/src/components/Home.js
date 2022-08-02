@@ -10,7 +10,7 @@ function Home()
     return(
       <div id="loginDiv">
         <form onSubmit={doLogin}>
-        <span id="inner-title">Welcome, {data.firstName} {data.lastName}</span><br />
+        <span id="inner-title">Welcome, {data.firstName} {data.lastName}. Please access the mobile app to continue.</span><br />
         </form>
         <span id="loginResult"></span>
      </div>
