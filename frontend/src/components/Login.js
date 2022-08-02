@@ -56,8 +56,14 @@ export const Login = () => {
             <span id="inner-title">LOG IN</span><br />
             <input type="text" id="loginName" placeholder="Username" ref={(c) => loginName = c}  /><br/>
             <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doLogin} />
+            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doLogin} /><br/><br/>
             <span id="loginResult">{message}</span>
+            
+            <div className="col text-center">
+                <a style={{color: 'white'}}href="/forgotpassword"> <br/>Forgot Password?</a><br></br>
+                <a style={{color: 'white'}}href="/signup" className="link">Create an account</a>
+            </div>
+            
         </div>
     );
 };

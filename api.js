@@ -264,6 +264,7 @@ exports.setApp = function ( app, client )
       {
         // using Twilio SendGrid's v3 Node.js Library
         // https://github.com/sendgrid/sendgrid-nodejs
+        error = "Email Sent";
         var token = randtoken.generate(20);
         var newValues = { $set: {Token : token} };
         await Users.updateOne({ Email: email }, newValues);
@@ -280,7 +281,7 @@ exports.setApp = function ( app, client )
         sgMail
           .send(msg)
           .then(() => {
-            error = "Email Sent";
+            console.log("Email sent");
           })
           .catch((error) => {
             console.error(error)

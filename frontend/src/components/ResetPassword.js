@@ -85,7 +85,7 @@ function ResetPassword()
     //     </Form>
     // </div>
 
-    <div id="resetpasswordDiv">
+    <div id="resetpasswordDiv"> <br/><br/>
     <span id="inner-title">RESET YOUR PASSWORD</span><br />
     <input type="password" id="password" placeholder="Password" ref={(c) => password = c}  /><br/>
     <input type="password" id="confirmPass" placeholder="Confirm Password" ref={(c) => confirmPass = c} /><br />

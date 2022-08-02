@@ -85,7 +85,7 @@ function VerifyEmail()
             <span id="inner-title">LOG IN TO VERIFY EMAIL</span><br />
             <input type="text" id="loginUserName" placeholder="Username" ref={(c) => loginUserName = c}  /><br/>
             <input type="password" id="loginPassword" placeholder="Password" ref={(c) => loginPassword = c} /><br />
-            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doVerifyEmail} />
+            <input type="submit" id="loginButton" class="buttons" value = "submit" onClick={doVerifyEmail} /> <br/><br/>
             <span id="verifyResult">{message}</span>
         </div>
    );

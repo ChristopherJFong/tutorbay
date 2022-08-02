@@ -1,7 +1,7 @@
 import React from 'react';
 function Home()
 {
-
+    var data = JSON.parse(localStorage.getItem('user_data'));
     const doLogin = async event => 
     {
         event.preventDefault();
@@ -10,7 +10,7 @@ function Home()
     return(
       <div id="loginDiv">
         <form onSubmit={doLogin}>
-        <span id="inner-title">HOME PAGE</span><br />
+        <span id="inner-title">Welcome, {data.firstName} {data.lastName}</span><br />
         </form>
         <span id="loginResult"></span>
      </div>

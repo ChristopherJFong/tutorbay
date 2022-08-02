@@ -74,7 +74,7 @@ function SignUp()
         <input type="text" id="userName" placeholder="Username" ref={(c) => userName = c}  /><br/>
         <input type="password" id="password" placeholder="Password" ref={(c) => password = c} /><br />
         <input type="password" id="confirmPass" placeholder="Confirm Password" ref={(c) => confirmPass = c} /><br />
-        <input type="submit" id="signupButton" class="buttons" value = "submit" onClick={doSignUp} />
+        <input type="submit" id="signupButton" class="buttons" value = "submit" onClick={doSignUp} /> <br/><br/>
         <span id="signupResult">{message}</span>
     </div>
     );

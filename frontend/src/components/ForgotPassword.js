@@ -62,7 +62,7 @@ function ForgotPassword(props)
         <div id="forgotpasswordDiv">
             <span id="inner-title">ENTER EMAIL TO RESET PASSWORD</span><br />
             <input type="text" id="emailForm" placeholder="Email" ref={(c) => emailForm = c}  /><br/>
-            <input type="submit" id="forgotpasswordButton" class="buttons" value = "submit" onClick={doSendEmail} />
+            <input type="submit" id="forgotpasswordButton" class="buttons" value = "submit" onClick={doSendEmail} /> <br/><br/>
             <span id="forgotpasswordResult">{message}</span>
         </div>
 
