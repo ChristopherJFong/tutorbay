@@ -31,7 +31,7 @@ function VerifyEmail()
                 localStorage.setItem('user_data', JSON.stringify(user));
                 
                 setMessage('Your email has been verified!');
-                // window.location.href = '/home';
+                //window.location.href = '/';
             }
         }
         catch(e)

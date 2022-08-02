@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" index element={<LoginPage />} />
         <Route path="/signup" index element={<SignUpPage />} />
-        <Route path="/verifyEmail" index element={<VerifyEmailPage />} />
+        <Route path="/verifyemail" index element={<VerifyEmailPage />} />
       </Routes>
     </BrowserRouter>
   );
