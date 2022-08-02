@@ -196,6 +196,20 @@ exports.setApp = function ( app, client )
         Verify: false
     }
     
+    const results2 = await Users.find({ Login: login});
+    if( results2 > 0 )
+    {
+      var ret2 = { error: "Username already exists" };
+      res.status(200).json(ret2);
+    }
+
+    const results3 = await Users.find({ Email: email});
+    if( results3 > 0 )
+    {
+      var ret3 = { error: "Email already exists" };
+      res.status(200).json(ret3);
+    }
+
     try {
         const result = await Users.create(user);
         
@@ -238,9 +252,9 @@ exports.setApp = function ( app, client )
 
     if (results.length > 0 && hashPass.verify(password, results[0].Password))
     {
-        fn = result[0].FirstName;
-        ln = result[0].LastName;
-        email = result[0].Email;
+        //fn = result[0].FirstName;
+        //ln = result[0].LastName;
+        //email = result[0].Email;
 
         var query = { Login: login };
 
