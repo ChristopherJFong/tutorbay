@@ -29,7 +29,7 @@ exports.setApp = function ( app, client )
     }
     
     var _search = search.trim();
-    const results = await Subjects.find({ "Title": { $regex: _search + '.*', $options: 'r' } });
+    const results = await Subjects.find({ "Name": { $regex: _search + '.*', $options: 'r' } });
     
     var _ret = [];
     for( var i=0; i<results.length; i++ )
