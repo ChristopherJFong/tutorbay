@@ -195,41 +195,27 @@ exports.setApp = function ( app, client )
         Password: hashedPass,
         Verify: false
     }
-    
-    const results2 = await Users.find({ Login: login});
-    if( results2 > 0 )
-    {
-      var ret2 = { error: "Username already exists" };
-      res.status(200).json(ret2);
-    }
-
-    const results3 = await Users.find({ Email: email});
-    if( results3 > 0 )
-    {
-      var ret3 = { error: "Email already exists" };
-      res.status(200).json(ret3);
-    }
 
     try {
-        const result = await Users.create(user);
-        
-        const sgMail = require('@sendgrid/mail')
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-        const msg = {
-            to: email, // Change to your recipient
-            from: 'thetutorbay@gmail.com', // Change to your verified sender
-            subject: 'Please Verify Your Email!',
-            text: 'and easy to do anywhere, even with Node.js',
-            html: '<a href="https://tutorbay.herokuapp.com/verifyemail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
-        }
-        sgMail
-            .send(msg)
-            .then(() => {
-            console.log('Email sent')
-            })
-            .catch((error) => {
-            console.error(error)
-            })
+      await Users.create(user);
+      
+      const sgMail = require('@sendgrid/mail')
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+      const msg = {
+          to: email, // Change to your recipient
+          from: 'thetutorbay@gmail.com', // Change to your verified sender
+          subject: 'Please Verify Your Email!',
+          text: 'and easy to do anywhere, even with Node.js',
+          html: '<a href="https://tutorbay.herokuapp.com/verifyemail"<strong><button type="button">Click Me To Verify Account!</button></strong>', //HTML for verification email
+      }
+      sgMail
+          .send(msg)
+          .then(() => {
+          console.log('Email sent')
+          })
+          .catch((error) => {
+          console.error(error)
+          })
     }
     catch(e) {
       error = "Email/Username already in use";
@@ -245,17 +231,9 @@ exports.setApp = function ( app, client )
     const { login, password } = req.body;
       
     const results = await Users.find({ Login: login });
-    
-    var fn = '';
-    var ln = '';
-    var email = '';
 
     if (results.length > 0 && hashPass.verify(password, results[0].Password))
     {
-        //fn = result[0].FirstName;
-        //ln = result[0].LastName;
-        //email = result[0].Email;
-
         var query = { Login: login };
 
         var newValues = { $set: {Verify : true} };
