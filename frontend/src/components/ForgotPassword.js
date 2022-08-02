@@ -73,23 +73,23 @@ function ForgotPassword(props)
 
 
     return(
-        // <div>
-        //     <form className="login-form" onSubmit={doSendEmail}>
-        //     <div className="login-title-container">
-        //         <FontAwesomeIcon onClick={() => backToLogin()} className="login-navigate-btn" icon={solid('arrow-left')} />
-        //         <span className="login-title">Forgot Password</span>
-        //     </div>
-        //     <div className="login-forgot-msg">Enter your email address and we will attempt to send you a password reset link.</div>
-        //     <div className="login-input-container">
-        //         <div className="login-input-header">Email</div>
-        //         <input type="text" onChange={(e) => {handleChange(e)}} ref={(c) => emailForm = c} />
-        //     </div>
-        //     <input type="submit" disabled={disabled} className="login-login-btn btn btn-success" value="Send Email" onClick={doSendEmail} />
-        //     </form>
-        //     <div className="login-error-msg">{message}</div>
-        // </div>
+        <div>
+            <form className="login-form" onSubmit={doSendEmail}>
+            <div className="login-title-container">
+                <FontAwesomeIcon onClick={() => backToLogin()} className="login-navigate-btn" icon={solid('arrow-left')} />
+                <span className="login-title">Forgot Password</span>
+            </div>
+            <div className="login-forgot-msg">Enter your email address and we will attempt to send you a password reset link.</div>
+            <div className="login-input-container">
+                <div className="login-input-header">Email</div>
+                <input type="text" onChange={(e) => {handleChange(e)}} ref={(c) => emailForm = c} />
+            </div>
+            <input type="submit" disabled={disabled} className="login-login-btn btn btn-success" value="Send Email" onClick={doSendEmail} />
+            </form>
+            <div className="login-error-msg">{message}</div>
+        </div>
 
-        
+
     );
 };
 
