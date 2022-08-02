@@ -3,6 +3,7 @@ import {Form, Button} from 'react-bootstrap';
 
 function VerifyEmail()
 {
+    var storage = require('../tokenStorage.js');
     var loginUserName;
     var loginPassword;
     const [message,setMessage] = useState('');
@@ -31,7 +32,7 @@ function VerifyEmail()
                 
                 setMessage('Your email has been verified!');
                 const response2 = await fetch('https://tutorbay.herokuapp.com/api/login', {method:'POST',body:js,headers:{'Content-Type': 'application/json'}});
-                var res2 = JSON.parse(await response.text());
+                var res2 = JSON.parse(await response2.text());
                 storage.storeToken(res2);
                 var jwt = require('jsonwebtoken');
 
